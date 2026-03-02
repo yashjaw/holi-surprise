@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title> Love You 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root{
+  --o:#FF6B2B;--p:#FF2D78;--y:#FFD700;--g:#00C896;
+  --b:#4B9FFF;--v:#C94BFF;--bg:#FFF5EE;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{background:var(--bg);font-family:'Baloo 2',cursive;min-height:100vh;overflow-x:hidden}
+
+/* BG CANVAS */
+#bgCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* ═══════════ INTRO ═══════════ */
+#intro{
+  position:fixed;inset:0;z-index:900;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:28px;
+  background:linear-gradient(145deg,#FF6B2B,#FF2D78 40%,#C94BFF 75%,#4B9FFF);
+  transition:opacity .8s,transform .8s;
+}
+#intro.out{opacity:0;transform:scale(1.08);pointer-events:none}
+.i-spin{font-size:4rem;animation:spinFull 5s linear infinite;display:inline-block;margin-bottom:14px}
+@keyframes spinFull{to{transform:rotate(360deg)}}
+.i-h1{font-family:'Yatra One',cursive;font-size:clamp(2.2rem,9vw,3.4rem);color:#fff;
+  text-shadow:3px 3px 0 rgba(0,0,0,.2);line-height:1.15;margin-bottom:8px}
+.i-sub{color:rgba(255,255,255,.88);font-size:.92rem;margin-bottom:8px}
+.i-hint{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:.78rem;letter-spacing:1px;padding:7px 18px;border-radius:20px;
+  margin-bottom:28px;backdrop-filter:blur(8px)}
+.i-btn{background:#fff;color:var(--p);border:none;padding:17px 50px;border-radius:60px;
+  font-family:'Pacifico',cursive;font-size:1.25rem;cursor:pointer;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);animation:hb 1.8s ease infinite}
+@keyframes hb{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* ═══════════ MAIN ═══════════ */
+#main{position:relative;z-index:1;display:none}
+
+.site-hdr{text-align:center;padding:28px 18px 6px;animation:dropIn .8s both}
+.site-hdr h1{font-family:'Yatra One',cursive;font-size:clamp(1.6rem,7vw,2.4rem);
+  background:linear-gradient(135deg,var(--o),var(--p),var(--v),var(--b));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.2}
+.site-hdr p{font-size:.82rem;color:#999;font-style:italic;margin-top:5px}
+.pdiv{text-align:center;font-size:1.3rem;letter-spacing:5px;margin:8px 0;
+  animation:colorShift 3s ease-in-out infinite alternate}
+.music-row{display:flex;justify-content:center;margin:10px 0 6px}
+.music-btn{background:#fff;border:2px solid #f0d7e4;color:#9b2c5f;
+  padding:8px 16px;border-radius:24px;font-size:.8rem;font-weight:700;
+  cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.08);transition:all .2s}
+.music-btn:hover{transform:translateY(-1px)}
+@keyframes colorShift{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(60deg)}}
+@keyframes dropIn{from{opacity:0;transform:translateY(-36px) scale(.93)}to{opacity:1;transform:none}}
+
+/* ═══════════ SECTION LABELS ═══════════ */
+.section-label{
+  max-width:430px;margin:18px auto 8px;padding:0 16px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label span{
+  font-family:'Yatra One',cursive;font-size:1rem;
+  background:linear-gradient(135deg,var(--o),var(--p));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-line{flex:1;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,var(--o)33,transparent)}
+
+/* ═══════════ PUZZLE SECTION (1-5) ═══════════ */
+.puzzle-wrap{max-width:430px;margin:0 auto;padding:0 16px}
+
+.puzzle-card{
+  border-radius:22px;overflow:hidden;background:#111;
+  box-shadow:0 16px 50px rgba(0,0,0,.2);margin-bottom:20px;
+  position:relative;
+}
+.puz-canvas-wrap{position:relative;width:100%;aspect-ratio:4/3;cursor:grab}
+.puz-canvas-wrap:active{cursor:grabbing}
+.puz-canvas-wrap canvas{width:100%;height:100%;display:block;touch-action:none}
+.puz-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;pointer-events:none;transition:opacity .5s;
+}
+.puz-prompt{
+  background:rgba(0,0,0,.55);backdrop-filter:blur(8px);color:#fff;
+  font-size:.85rem;font-weight:700;letter-spacing:.5px;
+  padding:8px 20px;border-radius:20px;border:1px solid rgba(255,255,255,.25);
+  animation:blinkAnim 2s infinite;
+}
+@keyframes blinkAnim{0%,100%{opacity:1}50%{opacity:.35}}
+.puz-pct{
+  position:absolute;top:12px;left:12px;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(6px);
+  color:#fff;font-size:.68rem;font-weight:700;
+  padding:4px 12px;border-radius:16px;letter-spacing:1px;
+}
+.solve-flash{
+  position:absolute;inset:0;border-radius:22px;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.9),transparent 70%);
+  opacity:0;pointer-events:none;
+}
+.solve-flash.pop{animation:flashPop .55s ease forwards}
+@keyframes flashPop{0%{opacity:.9}100%{opacity:0}}
+
+/* caption under puzzle */
+.cap-box{
+  background:linear-gradient(135deg,rgba(255,45,120,.95),rgba(139,0,69,.95));
+  max-height:0;overflow:hidden;padding:0;
+  transition:max-height .6s cubic-bezier(.22,1,.36,1),padding .4s;
+}
+.cap-box.show{max-height:160px;padding:16px 18px 18px}
+.cap-tag{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.7);margin-bottom:4px}
+.cap-text{font-family:'Pacifico',cursive;font-size:clamp(.95rem,3.5vw,1.2rem);
+  color:#fff;line-height:1.4;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.cap-emoji{display:inline-block;font-size:1.3rem;
+  animation:emojiPop .5s cubic-bezier(.34,1.56,.64,1) .2s both}
+@keyframes emojiPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1)}}
+
+/* hint row */
+.hint-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.hint-btn{background:#fff;border:2px solid #eee;color:#bbb;
+  padding:7px 16px;border-radius:28px;font-size:.75rem;font-weight:700;
+  cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.hint-btn.used{border-color:var(--y);color:var(--y)}
+.puz-num{font-size:.72rem;color:#bbb;font-style:italic}
+
+/* ═══════════ ROPE TRANSITION ═══════════ */
+#ropeSection{
+  display:none;max-width:430px;margin:10px auto 0;padding:0 16px;
+}
+
+/* The big rope track */
+.rope-track-outer{
+  position:relative;
+  background:linear-gradient(135deg,#1a0a00,#2d0e0e);
+  border-radius:24px;
+  padding:30px 16px 24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+  margin-bottom:8px;
+}
+
+/* decorative top text */
+.rope-intro-text{
+  text-align:center;margin-bottom:22px;
+}
+.rope-intro-text h3{
+  font-family:'Yatra One',cursive;
+  font-size:clamp(1.2rem,5vw,1.6rem);
+  color:#fff;text-shadow:2px 2px 0 rgba(255,107,43,.4);
+  margin-bottom:5px;
+}
+.rope-intro-text p{
+  font-size:.78rem;color:rgba(255,255,255,.6);font-style:italic;
+}
+
+/* Clothesline rope SVG */
+.rope-line-wrap{
+  position:relative;
+  width:100%;
+  height:54px;
+  margin-bottom:6px;
+}
+#ropeSVG{
+  width:100%;height:54px;
+  position:absolute;top:0;left:0;
+}
+
+/* pole left & right */
+.rope-pole{
+  position:absolute;top:0;width:10px;height:54px;border-radius:5px;
+  background:linear-gradient(180deg,#8B5E3C,#5C3A1E);
+  box-shadow:2px 0 8px rgba(0,0,0,.4);
+}
+.rope-pole.left{left:0}
+.rope-pole.right{right:0}
+
+/* Draggable knot */
+#ropeKnot{
+  position:absolute;
+  top:50%;transform:translateY(-50%);
+  width:44px;height:44px;
+  background:radial-gradient(circle at 35% 35%,#ff9050,#c94b00);
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.3);
+  box-shadow:0 4px 18px rgba(255,107,43,.6),inset 0 2px 6px rgba(255,255,255,.2);
+  cursor:grab;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;
+  z-index:10;
+  transition:box-shadow .2s;
+  touch-action:none;
+  user-select:none;
+}
+#ropeKnot:active{cursor:grabbing;box-shadow:0 6px 28px rgba(255,107,43,.8)}
+#ropeKnot.locked{cursor:default;opacity:.5}
+
+/* Progress fill on rope */
+#ropeFill{
+  position:absolute;top:50%;transform:translateY(-50%);
+  left:22px;height:6px;
+  background:linear-gradient(90deg,var(--o),var(--p),var(--v));
+  border-radius:3px;
+  width:0%;
+  transition:width .05s linear;
+}
+
+/* rope pct label */
+.rope-pct-label{
+  text-align:center;font-size:.75rem;
+  color:rgba(255,255,255,.5);font-style:italic;margin-top:4px;
+}
+
+/* photos that appear on the line — clothespins */
+.rope-photos-strip{
+  position:relative;
+  width:100%;
+  min-height:180px;
+  margin-top:14px;
+}
+
+/* each rope photo card appears staggered */
+.rope-photo-item{
+  width:100%;
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:16px;
+  opacity:0;transform:translateY(30px) scale(.95);
+  transition:opacity .5s ease,transform .5s ease;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+  position:relative;
+}
+.rope-photo-item.reveal{opacity:1;transform:none}
+
+.rope-photo-item img{
+  width:100%;height:420px;object-fit:cover;display:block;
+}
+.rope-photo-caption{
+  background:linear-gradient(135deg,rgba(0,0,0,.8),rgba(50,0,25,.9));
+  padding:14px 16px 16px;
+}
+.rpc-tag{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:4px}
+.rpc-text{font-family:'Pacifico',cursive;font-size:clamp(.9rem,3.2vw,1.1rem);
+  color:#fff;line-height:1.4;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+
+/* clothespin decoration */
+.clothespin{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  width:28px;height:28px;
+  background:linear-gradient(135deg,#c9a96e,#8B5E3C);
+  border-radius:4px 4px 6px 6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;
+  box-shadow:0 3px 10px rgba(0,0,0,.3);
+  z-index:5;
+}
+
+/* lock overlay on rope section */
+.rope-lock-overlay{
+  position:absolute;inset:0;border-radius:24px;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(4px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fff;text-align:center;padding:20px;
+  pointer-events:none;
+  transition:opacity .5s;
+  z-index:20;
+}
+.rope-lock-overlay.hidden{opacity:0;pointer-events:none}
+.lock-emoji{font-size:3rem;animation:lockBounce 1.5s ease infinite}
+@keyframes lockBounce{0%,100%{transform:scale(1)}50%{transform:scale(1.1) rotate(-5deg)}}
+.lock-text{font-family:'Yatra One',cursive;font-size:1.1rem;margin-top:10px;
+  text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.lock-sub{font-size:.78rem;color:rgba(255,255,255,.7);margin-top:5px;font-style:italic}
+
+/* ═══════════ QUESTION ═══════════ */
+#qSection{
+  display:none;max-width:430px;margin:24px auto 0;
+  padding:0 16px 24px;text-align:center;animation:dropIn .8s both;
+}
+.q-powder{font-size:2rem;letter-spacing:5px;margin-bottom:16px}
+.q-card{background:#fff;border-radius:28px;padding:26px 20px 24px;
+  box-shadow:0 16px 50px rgba(0,0,0,.12);position:relative;overflow:hidden}
+.q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;
+  background:linear-gradient(90deg,var(--o),var(--p),var(--v),var(--b),var(--g))}
+.q-title{font-family:'Yatra One',cursive;font-size:clamp(1.5rem,6vw,1.9rem);
+  color:#1a0a00;line-height:1.3;margin-bottom:8px}
+.q-sub{font-size:.85rem;color:#888;font-style:italic;line-height:1.7;margin-bottom:24px}
+#btnArena{position:relative;min-height:140px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  overflow:hidden}
+.yes-btn{background:linear-gradient(135deg,var(--o),var(--p));color:#fff;border:none;
+  padding:17px 54px;border-radius:60px;font-family:'Pacifico',cursive;font-size:1.2rem;
+  cursor:pointer;box-shadow:0 8px 28px rgba(255,45,120,.45);transition:transform .2s;z-index:2}
+.yes-btn:hover{transform:scale(1.07)}
+.no-btn{background:#fff;color:#aaa;border:2px solid #eee;padding:11px 32px;
+  border-radius:60px;font-family:'Baloo 2',cursive;font-size:.92rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;z-index:2;
+  box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.bot-no-wrap{margin:16px auto 0;min-height:54px;
+  display:flex;justify-content:center;align-items:center;position:relative;
+  overflow:hidden}
+
+/* ═══════════ SUCCESS ═══════════ */
+#successScreen{position:fixed;inset:0;z-index:999;display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:30px;overflow:hidden}
+#successScreen.show{display:flex;animation:fadeIn .7s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.s-bg{position:absolute;inset:0;z-index:-2;
+  background:linear-gradient(145deg,#FFF8F0,#FFF0F8 50%,#F0F8FF)}
+.s-gulal{width:min(220px,60vw);height:auto;animation:bigBounce .8s cubic-bezier(.34,1.56,.64,1) both;margin-bottom:14px;display:block}
+@keyframes bigBounce{from{transform:scale(0) rotate(-30deg);opacity:0}to{transform:scale(1);opacity:1}}
+.s-title{font-family:'Yatra One',cursive;font-size:clamp(2rem,8vw,3rem);
+  background:linear-gradient(135deg,var(--o),var(--p),var(--v));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:12px;animation:dropIn .8s .3s both;line-height:1.2}
+.s-msg{font-size:1rem;color:#555;line-height:1.9;max-width:320px;animation:dropIn .8s .5s both}
+.s-msg strong{background:linear-gradient(90deg,var(--o),var(--p));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800}
+.s-colors{margin-top:18px;font-size:2rem;letter-spacing:8px;
+  animation:dropIn .8s .7s both,colorShift 2s infinite alternate}
+.confetti{position:fixed;pointer-events:none;font-size:1.3rem;
+  animation:cfFall linear forwards;top:-30px;z-index:1000}
+@keyframes cfFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:rgba(26,10,0,.88);color:#fff;backdrop-filter:blur(10px);
+  padding:9px 22px;border-radius:30px;font-size:.82rem;font-weight:600;
+  white-space:nowrap;z-index:800;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* dots */
+.dot-row{display:flex;justify-content:center;gap:6px;margin:10px 0 16px}
+.dot{width:7px;height:7px;border-radius:50%;background:#ddd;transition:all .3s;cursor:pointer}
+.dot.active{width:20px;border-radius:4px}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<!-- ═══ INTRO ═══ -->
+<div id="intro">
+  <div class="i-h1"> Hi, Mitu I hope you are good. <br>Happy Holi to you and your family!.
+
+
+  </div>
+  <h1 class="i-h1">I have a surprise for you! 💕</h1>
+  <p class="i-sub">Tum isse dekh ke overthing mat karna, This is just for a smile on your face 🎀</p>
+  <button class="i-btn" onclick="startShow()">Open Your Surprise 🎀</button>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div id="main">
+  <div class="site-hdr">
+    <h1>Ab dekho, tumhe Solve Karne ke liye <br>5 puzzles aur 15 cute reasons milenge.</h1>
+    <p> Saari photos ke saath ek chhota<br> sa message hoga — just for you, baby 💕 🎁<br> Lets start Mitu ✨</p>
+  </div>
+  <div class="pdiv">🟠🔴🟣🔵🟢🟡</div>
+  <div class="music-row">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶️ Play Song</button>
+  </div>
+
+  <!-- ═══ PUZZLE SECTION ═══ -->
+  <div class="section-label">
+    <span>🧩 Part 1 — Solve nahi krni to Press Hint meri lazy panda 💕 </span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="puzzle-wrap" id="puzzleWrap">
+    <!-- built by JS -->
+  </div>
+
+  <!-- ═══ ROPE SECTION ═══ -->
+  <div id="ropeSection">
+    <div class="section-label" style="margin-top:4px">
+      <span>🪢 Part 2 — Pull the Rope to Reveal!</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="rope-track-outer" id="ropeTrackOuter">
+      <!-- lock overlay -->
+      <div class="rope-lock-overlay" id="ropeLockOverlay">
+        <div class="lock-emoji">🔒</div>
+        <div class="lock-text">Solve All 5 Puzzles First!</div>
+        <div class="lock-sub">Then come back and pull the rope 🪢</div>
+      </div>
+
+      <div class="rope-intro-text">
+        <h3>Pull the rope left → right 🪢</h3>
+        <p>10 more colourful surprises are hanging on this line…</p>
+      </div>
+
+      <!-- rope line -->
+      <div class="rope-line-wrap">
+        <div class="rope-pole left"></div>
+        <div class="rope-pole right"></div>
+        <svg id="ropeSVG" viewBox="0 0 360 54" preserveAspectRatio="none">
+          <path id="ropePath" d="" fill="none" stroke="#8B5E3C" stroke-width="5" stroke-linecap="round"/>
+          <path id="ropeShadow" d="" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="7" stroke-linecap="round"/>
+          <!-- rope texture dashes -->
+          <path id="ropeTexture" d="" fill="none" stroke="rgba(255,200,120,0.3)" stroke-width="3" stroke-dasharray="8 12" stroke-linecap="round"/>
+        </svg>
+        <div id="ropeFill"></div>
+        <div id="ropeKnot">🪢</div>
+      </div>
+      <div class="rope-pct-label" id="ropePctLabel">Drag the knot → to reveal photos</div>
+
+      <!-- photos revealed below -->
+      <div class="rope-photos-strip" id="ropePhotosStrip">
+        <!-- built by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- dots -->
+  <div class="dot-row" id="dotRow"></div>
+
+  <!-- ═══ QUESTION ═══ -->
+  <div id="qSection">
+    <div class="q-powder">💕💕💕💕💕💕💕</div>
+    <div class="q-card">
+      <p class="q-sub">One Last Question Before You Exit…?🥺❤️</p>
+      <div class="q-title">Can We Go On A Cute Date Soon? 💕</div>
+      <div id="btnArena">
+        <button class="yes-btn" onclick="sayYes()">Say Yes!  🎉</button>
+        <button class="no-btn" id="noBtnCard" onmouseenter="noRun('noBtnCard')" ontouchstart="noRun('noBtnCard')">No 😅</button>
+      </div>
+    </div>
+    <div class="bot-no-wrap">
+      <button class="no-btn" id="noBtnBot" onmouseenter="noRun('noBtnBot')" ontouchstart="noRun('noBtnBot')">Still no 🙈</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div id="successScreen">
+  <div class="s-bg"></div>
+  <img class="s-gulal" src="assets/images/love.gif" alt="Love animation">
+  <h2 class="s-title">YOU MADE MY DAY!<br>Mitu!</h2>
+  <p class="s-msg">
+    <strong>Now I will make YOUR day!</strong><br>
+    Get ready… because this <br>is just the beginning 🎨<br>
+    You + Me = <strong>Perfect 💕</strong>
+  </p>
+  <div>💕💕💕💕💕💕💕</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<audio id="bgMusic" preload="auto" loop>
+  <source src="assets/audio/song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ══════════════════════════════════
+//  DATA
+// ══════════════════════════════════
+const PUZZLE_PHOTOS = [
+  {url:"assets/images/puzzles/1.jpg",color:"#FF6B2B", tag:"💕 Lets Start",    caption:"Meri zindagi ki sabse cute, smart, beautiful ladki ke liye — jo abhi isse padh rahi hai 🧡",emoji:"🧡"},
+  {url:"assets/images/puzzles/2.jpg",color:"#FF2D78",tag:"💕 Payari lag rhi ho!",    caption:"You are not perfect… but you are perfectly mine in my heart.",emoji:"💕"},
+  {url:"assets/images/puzzles/3.jpg",color:"#FFD700",tag:"🌟 Acha Bacha",      caption:"You don’t even try… yet you make my heart smile every single day. ✨",emoji:"⭐"},
+  {url:"assets/images/puzzles/4.jpg",color:"#00C896",tag:"🌿 Jada Ho gya kya",  caption:"If happiness had a face, it would look exactly like you.",emoji:"🌱"},
+  {url:"assets/images/puzzles/5.jpg",color:"#4B9FFF",tag:"💙 Muskurao",      caption:"I made this whole surprise just to see one thing — your smile.",emoji:"🌤️"},
+];
+
+const ROPE_PHOTOS = [
+  {url:"assets/images/rope/6.jpg",color:"#C94BFF",tag:"💜 Smile Please",  caption:"You are my peace in chaos and my smile in stress. 🔮",emoji:"💜"},
+  {url:"assets/images/rope/7.jpg",color:"#FF6B2B",tag:"🔥 HaHaha",  caption:"If I ever win any award in life, it will be for choosing you. 😁🚨",emoji:"🔥"},
+  {url:"assets/images/rope/8.jpg",color:"#FF2D78",tag:"🌸 Shiddat",    caption:"Ab tum moti ho jao ya patli, tum tum hi rahogi 💛",emoji:"🌷"},
+  {url:"assets/images/rope/9.jpg",color:"#FFD700",tag:"🌻 Aa raha hai Maja",   caption:"No matter how many people I meet, no one feels like you. 🌅",emoji:"🌇"},
+  {url:"assets/images/rope/10.jpg",color:"#00C896",tag:"🎉 Mitu",   caption:"You don’t need filters. Your natural vibe is already magical. 🌈",emoji:"💃"},
+  {url:"assets/images/rope/11.jpg",color:"#4B9FFF",tag:"⭐ Bachu",    caption:"You are the reason I believe surprises are worth making. 🌠",emoji:"✨"},
+  {url:"assets/images/rope/12.jpg",color:"#C94BFF",tag:"🎭 Cutiepie",     caption:"I don’t promise perfection… but I promise effort, honesty, and care.. 📖",emoji:"💫"},
+  {url:"assets/images/rope/13.jpg",color:"#FF6B2B",tag:"🧡 My Girl", caption:"I’m genuinely always proud of the girl you are becoming.😌",emoji:"🥰"},
+  {url:"assets/images/rope/14.jpg",color:"#FF2D78",tag:"💌 Secret",        caption:"And if one day you feel low, just remember — someone built a whole page only for you ❤️ 🤫",emoji:"💝"},
+  {url:"assets/images/rope/15.jpg",color:"#C94BFF",tag:"🎨 The Finale",   caption:"You + Me = The best day ever. Say yes? 🎊"},
+];
+
+const GRID = 3;
+const colors = ['#FF6B2B','#FF2D78','#FFD700','#00C896','#4B9FFF','#C94BFF'];
+const MUSIC_SRC = 'assets/audio/song.mp3';
+
+let musicInitialized = false;
+
+// ══════════════════════════════════
+//  PUZZLE STATE
+// ══════════════════════════════════
+let puzzleStates = []; // per-card state
+let puzzlesSolved = 0;
+
+const TOAST_MSGS = [
+  "🎉 Puzzle genius!","😍 Secret unlocked!","🌈 Smooth move!",
+  "💕 Look at you go!","🧩 Puzzle master! Now pull the rope 🪢",
+];
+
+// ══════════════════════════════════
+//  BUILD PUZZLES
+// ══════════════════════════════════
+function buildPuzzles(){
+  const wrap = document.getElementById('puzzleWrap');
+  PUZZLE_PHOTOS.forEach((ph, idx) => {
+    const card = document.createElement('div');
+    card.className = 'puzzle-card';
+    card.id = 'pcard' + idx;
+
+    card.innerHTML = `
+      <div class="hint-row" style="padding:10px 14px 4px">
+        <span class="puz-num">🧩 Puzzle ${idx+1} of 5</span>
+        <button class="hint-btn" id="hbtn${idx}" onclick="useHint(${idx})">💡 Hint</button>
+      </div>
+      <div class="puz-canvas-wrap" id="pcwrap${idx}">
+        <canvas id="pc${idx}" touch-action="none"></canvas>
+        <div class="puz-overlay" id="pov${idx}">
+          <div class="puz-prompt">🧩 Drag pieces to unscramble!</div>
+        </div>
+        <div class="puz-pct" id="ppct${idx}">0% solved</div>
+        <div class="solve-flash" id="pflash${idx}"></div>
+      </div>
+      <div class="cap-box" id="pcap${idx}">
+        <div class="cap-tag">${ph.tag}</div>
+        <div class="cap-text">${ph.caption} <span class="cap-emoji">${ph.emoji}</span></div>
+      </div>
+    `;
+    wrap.appendChild(card);
+
+    // init puzzle
+    initPuzzle(idx, ph);
+  });
+}
+
+function initPuzzle(idx, ph){
+  const wrap  = document.getElementById('pcwrap'+idx);
+  const canvas = document.getElementById('pc'+idx);
+  const ctx    = canvas.getContext('2d');
+  const W      = wrap.clientWidth;
+  const H      = Math.round(W * 3/4);
+  canvas.width = W; canvas.height = H;
+  wrap.style.height = H + 'px';
+
+  const pw = W/GRID, ph2 = H/GRID;
+  let pieces = [];
+  let dragging = null, dragOX = 0, dragOY = 0;
+  let solved = false;
+
+  const state = {canvas, ctx, pieces, W, H, pw, ph2, solved,
+    dragging, dragOX, dragOY, ph, idx, draw, checkSolved};
+  puzzleStates[idx] = state;
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = ph.url + '?p=' + idx;
+  img.onload = () => { createPieces(state, img); draw(state); };
+  img.onerror = () => {
+    // fallback coloured canvas
+    const fc = document.createElement('canvas');
+    fc.width=420; fc.height=315;
+    const fx = fc.getContext('2d');
+    const gr = fx.createLinearGradient(0,0,420,315);
+    gr.addColorStop(0, ph.color);
+    gr.addColorStop(1, colors[(idx+3)%colors.length]);
+    fx.fillStyle = gr; fx.fillRect(0,0,420,315);
+    fx.font='bold 90px serif'; fx.textAlign='center'; fx.fillStyle='rgba(255,255,255,.35)';
+    fx.fillText(['🌸','🎨','🌈','💕','🌺'][idx], 210, 190);
+    createPieces(state, fc);
+    draw(state);
+  };
+
+  // events
+  canvas.addEventListener('mousedown',  e => pStart(state, e));
+  canvas.addEventListener('touchstart', e => pStart(state, e), {passive:false});
+  canvas.addEventListener('mousemove',  e => pMove(state, e));
+  canvas.addEventListener('touchmove',  e => pMove(state, e), {passive:false});
+  canvas.addEventListener('mouseup',    e => pEnd(state));
+  canvas.addEventListener('touchend',   e => pEnd(state));
+}
+
+function createPieces(st, imgSrc){
+  st.pieces = [];
+  for(let r=0;r<GRID;r++) for(let c=0;c<GRID;c++){
+    st.pieces.push({
+      homeC:c, homeR:r,
+      curX: c*st.pw, curY: r*st.ph2,
+      srcX: Math.round(c*(imgSrc.width||420)/GRID),
+      srcY: Math.round(r*(imgSrc.height||315)/GRID),
+      srcW: Math.round((imgSrc.width||420)/GRID),
+      srcH: Math.round((imgSrc.height||315)/GRID),
+      img: imgSrc, solved: false,
+    });
+  }
+  scramblePieces(st);
+}
+
+function scramblePieces(st){
+  const positions = st.pieces.map((_,i)=>i);
+  for(let i=positions.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [positions[i],positions[j]]=[positions[j],positions[i]];
+  }
+  let anyDiff=false;
+  positions.forEach((p,i)=>{if(p!==i)anyDiff=true;});
+  if(!anyDiff&&positions.length>1)[positions[0],positions[1]]=[positions[1],positions[0]];
+  positions.forEach((pos,i)=>{
+    st.pieces[i].curX = (pos%GRID)*st.pw;
+    st.pieces[i].curY = Math.floor(pos/GRID)*st.ph2;
+    st.pieces[i].solved=false;
+  });
+}
+
+function draw(st){
+  const {ctx,W,H,pieces} = st;
+  ctx.clearRect(0,0,W,H);
+  pieces.forEach((p,i)=>{
+    const isDrag = st.dragging===i;
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,.22)'; ctx.shadowBlur=isDrag?20:5;
+    ctx.shadowOffsetX=isDrag?4:2; ctx.shadowOffsetY=isDrag?6:3;
+    ctx.drawImage(p.img,p.srcX,p.srcY,p.srcW,p.srcH,p.curX,p.curY,st.pw,st.ph2);
+    ctx.shadowBlur=0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
+    ctx.strokeStyle=p.solved?'rgba(255,255,255,.8)':'rgba(255,255,255,.3)';
+    ctx.lineWidth=p.solved?3:1.5;
+    ctx.strokeRect(p.curX+.5,p.curY+.5,st.pw-1,st.ph2-1);
+    if(p.solved){ctx.fillStyle='rgba(255,255,255,.1)';ctx.fillRect(p.curX,p.curY,st.pw,st.ph2);}
+    ctx.restore();
+  });
+  // dragged on top
+  if(st.dragging!==null){
+    const p=pieces[st.dragging];
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=24;ctx.shadowOffsetX=5;ctx.shadowOffsetY=8;
+    ctx.drawImage(p.img,p.srcX,p.srcY,p.srcW,p.srcH,p.curX,p.curY,st.pw,st.ph2);
+    ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+    ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=2;
+    ctx.strokeRect(p.curX+.5,p.curY+.5,st.pw-1,st.ph2-1);
+    ctx.restore();
+  }
+}
+
+function getXY(e, canvas){
+  const r=canvas.getBoundingClientRect();
+  const scaleX=canvas.width/r.width, scaleY=canvas.height/r.height;
+  if(e.touches) return {x:(e.touches[0].clientX-r.left)*scaleX, y:(e.touches[0].clientY-r.top)*scaleY};
+  return {x:(e.clientX-r.left)*scaleX, y:(e.clientY-r.top)*scaleY};
+}
+
+function findPiece(st,x,y){
+  for(let i=st.pieces.length-1;i>=0;i--){
+    const p=st.pieces[i];
+    if(x>=p.curX&&x<=p.curX+st.pw&&y>=p.curY&&y<=p.curY+st.ph2) return i;
+  }
+  return -1;
+}
+
+function pStart(st,e){
+  if(st.solved) return;
+  e.preventDefault();
+  const {x,y}=getXY(e,st.canvas);
+  const i=findPiece(st,x,y);
+  if(i<0) return;
+  st.dragging=i;
+  st.dragOX=x-st.pieces[i].curX;
+  st.dragOY=y-st.pieces[i].curY;
+  document.getElementById('pov'+st.idx).style.opacity='0';
+}
+
+function pMove(st,e){
+  if(st.dragging===null) return;
+  e.preventDefault();
+  const {x,y}=getXY(e,st.canvas);
+  const p=st.pieces[st.dragging];
+  p.curX=Math.max(0,Math.min(st.W-st.pw,  x-st.dragOX));
+  p.curY=Math.max(0,Math.min(st.H-st.ph2, y-st.dragOY));
+  checkSolved(st);
+  draw(st);
+}
+
+function pEnd(st){
+  if(st.dragging===null) return;
+  st.dragging=null;
+  checkSolved(st);
+  draw(st);
+}
+
+function checkSolved(st){
+  if(st.solved) return;
+  const snap=16;
+  let cnt=0;
+  st.pieces.forEach(p=>{
+    const hx=p.homeC*st.pw, hy=p.homeR*st.ph2;
+    if(Math.abs(p.curX-hx)<snap&&Math.abs(p.curY-hy)<snap){
+      p.curX=hx;p.curY=hy;p.solved=true;cnt++;
+    } else p.solved=false;
+  });
+  const pct=Math.round(cnt/st.pieces.length*100);
+  document.getElementById('ppct'+st.idx).textContent=pct+'% solved';
+  if(cnt===st.pieces.length){
+    st.solved=true;
+    onPuzzleSolved(st.idx);
+  }
+}
+
+function onPuzzleSolved(idx){
+  // flash
+  const fl=document.getElementById('pflash'+idx);
+  fl.classList.add('pop');
+  setTimeout(()=>fl.classList.remove('pop'),650);
+  // hide overlay
+  document.getElementById('pov'+idx).style.opacity='0';
+  // show caption
+  document.getElementById('pcap'+idx).classList.add('show');
+  // toast
+  showToast(TOAST_MSGS[idx]||"🎉 Brilliant!");
+
+  puzzlesSolved++;
+  updateDots();
+
+  if(puzzlesSolved>=PUZZLE_PHOTOS.length){
+    setTimeout(unlockRope, 600);
+  }
+}
+
+function useHint(idx){
+  const st=puzzleStates[idx];
+  if(!st||st.solved) return;
+  const unsolved=st.pieces.filter(p=>!p.solved);
+  if(!unsolved.length) return;
+  unsolved.sort((a,b)=>{
+    return Math.hypot(a.curX-a.homeC*st.pw,a.curY-a.homeR*st.ph2)
+         - Math.hypot(b.curX-b.homeC*st.pw,b.curY-b.homeR*st.ph2);
+  });
+  const p=unsolved[0];
+  p.curX=p.homeC*st.pw; p.curY=p.homeR*st.ph2; p.solved=true;
+  document.getElementById('hbtn'+idx).textContent='💡 Used!';
+  document.getElementById('hbtn'+idx).classList.add('used');
+  checkSolved(st); draw(st);
+  showToast('💡 One piece snapped home! Keep going! 🧩');
+}
+
+// ══════════════════════════════════
+//  ROPE
+// ══════════════════════════════════
+let ropeUnlocked = false;
+let ropePct = 0;
+let ropeRevealedCount = 0;
+let isDraggingRope = false;
+let ropeStartX = 0;
+let ropeKnotLeft = 0; // px from left within track
+
+const ROPE_UNLOCK_TOAST = ["🪢 Pull that rope! 10 surprises waiting!","💕 Almost there!","🌈 Keep pulling!","😍 More surprises revealed!","🎉 So many colours!","🥰 You're doing great!","💫 Keep going!","🎨 Almost all revealed!","🌟 One more!","🎊 All revealed! Now answer! 💕"];
+
+function unlockRope(){
+  ropeUnlocked = true;
+  document.getElementById('ropeSection').style.display='block';
+  document.getElementById('ropeSection').scrollIntoView({behavior:'smooth',block:'start'});
+  // remove lock overlay
+  const ov = document.getElementById('ropeLockOverlay');
+  ov.classList.add('hidden');
+  setTimeout(()=>{ov.style.display='none';},600);
+  showToast("🪢 Rope unlocked! Drag it right to reveal surprises! 🎀");
+  setupRope();
+  buildRopePhotos();
+}
+
+function setupRope(){
+  const knot = document.getElementById('ropeKnot');
+  const track = document.getElementById('ropeTrackOuter');
+
+  // get rope track width
+  function getTrackW(){
+    return document.querySelector('.rope-line-wrap').clientWidth - 44;
+  }
+
+  // draw catenary rope
+  function drawRope(pctFill){
+    const lineW = document.querySelector('.rope-line-wrap').clientWidth;
+    const kx = 22 + pctFill * (lineW - 44);
+
+    // catenary curve
+    const sagsLeft  = Math.sin(Math.PI * (pctFill/2 + 0)) * 14;
+    const sagsRight = Math.sin(Math.PI * (pctFill/2 + .3)) * 10;
+
+    const path = `M 10,27 Q ${kx/2},${40+sagsLeft} ${kx},27 Q ${(kx+lineW)/2},${40+sagsRight} ${lineW-10},27`;
+    document.getElementById('ropePath').setAttribute('d',path);
+    document.getElementById('ropeShadow').setAttribute('d',path);
+    document.getElementById('ropeTexture').setAttribute('d',path);
+
+    // fill bar
+    document.getElementById('ropeFill').style.width = pctFill*100+'%';
+  }
+
+  function setKnotPos(px){
+    const lw = getTrackW();
+    ropeKnotLeft = Math.max(0, Math.min(lw, px));
+    ropePct = ropeKnotLeft / lw;
+    knot.style.left = (22 + ropeKnotLeft - 22) + 'px';
+    drawRope(ropePct);
+
+    // label
+    const pctInt = Math.round(ropePct*100);
+    document.getElementById('ropePctLabel').textContent =
+      pctInt < 5  ? 'Drag the knot → to reveal photos 🪢' :
+      pctInt < 30 ? '🪢 Keep pulling… ' + pctInt + '%' :
+      pctInt < 60 ? '🌈 More colours coming… ' + pctInt + '%' :
+      pctInt < 90 ? '💕 Almost all revealed! ' + pctInt + '%' :
+                    '🎉 All revealed! Scroll down 💕';
+
+    // reveal photos proportionally
+    revealPhotosByPct(ropePct);
+  }
+
+  // initial position
+  setKnotPos(0);
+
+  // mouse
+  knot.addEventListener('mousedown', e=>{
+    if(!ropeUnlocked) return;
+    isDraggingRope=true;
+    ropeStartX=e.clientX - ropeKnotLeft;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e=>{
+    if(!isDraggingRope) return;
+    setKnotPos(e.clientX - ropeStartX);
+  });
+  document.addEventListener('mouseup', ()=>{ isDraggingRope=false; });
+
+  // touch
+  knot.addEventListener('touchstart', e=>{
+    if(!ropeUnlocked) return;
+    isDraggingRope=true;
+    ropeStartX=e.touches[0].clientX - ropeKnotLeft;
+    e.preventDefault();
+  },{passive:false});
+  document.addEventListener('touchmove', e=>{
+    if(!isDraggingRope) return;
+    e.preventDefault();
+    setKnotPos(e.touches[0].clientX - ropeStartX);
+  },{passive:false});
+  document.addEventListener('touchend', ()=>{ isDraggingRope=false; });
+
+  // initial draw
+  drawRope(0);
+  window.addEventListener('resize', ()=> drawRope(ropePct));
+}
+
+function buildRopePhotos(){
+  const strip = document.getElementById('ropePhotosStrip');
+  ROPE_PHOTOS.forEach((ph, i)=>{
+    const item = document.createElement('div');
+    item.className = 'rope-photo-item';
+    item.id = 'rphoto'+i;
+    item.innerHTML = `
+      <img src="${ph.url}?r=${i}" alt="Surprise ${i+1}" loading="lazy"
+           onerror="this.parentElement.style.background='${ph.color}'; this.style.display='none'">
+      <div class="rope-photo-caption">
+        <div class="rpc-tag">${ph.tag}</div>
+        <div class="rpc-text">${ph.caption} <span style="display:inline-block">${ph.emoji}</span></div>
+      </div>
+    `;
+    strip.appendChild(item);
+  });
+}
+
+function revealPhotosByPct(pct){
+  // Each photo unlocks every 10% of the rope
+  const countToShow = Math.floor(pct * ROPE_PHOTOS.length);
+  for(let i=0; i<ROPE_PHOTOS.length; i++){
+    const el = document.getElementById('rphoto'+i);
+    if(!el) continue;
+    const shouldShow = i < countToShow;
+    if(shouldShow && !el.classList.contains('reveal')){
+      el.classList.add('reveal');
+      ropeRevealedCount++;
+      if(ROPE_UNLOCK_TOAST[i]) showToast(ROPE_UNLOCK_TOAST[i]);
+      updateDots();
+      // show question after all revealed
+      if(ropeRevealedCount >= ROPE_PHOTOS.length){
+        setTimeout(showQuestion, 700);
+      }
+    }
+  }
+}
+
+function showQuestion(){
+  const q = document.getElementById('qSection');
+  if(q.style.display==='block') return;
+  q.style.display='block';
+  setTimeout(()=>q.scrollIntoView({behavior:'smooth',block:'center'}), 200);
+  showToast("💕 Now answer the most important question!");
+}
+
+// ══════════════════════════════════
+//  DOTS
+// ══════════════════════════════════
+function buildDots(){
+  const row = document.getElementById('dotRow');
+  const total = PUZZLE_PHOTOS.length + ROPE_PHOTOS.length;
+  const allColors=[...PUZZLE_PHOTOS,...ROPE_PHOTOS].map(p=>p.color);
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='dot';
+    d.dataset.idx=i;
+    d.style.background='#ddd';
+    row.appendChild(d);
+  }
+}
+
+function updateDots(){
+  const dots=document.querySelectorAll('.dot');
+  const solved=puzzlesSolved;
+  dots.forEach((d,i)=>{
+    const allColors=[...PUZZLE_PHOTOS,...ROPE_PHOTOS].map(p=>p.color);
+    if(i<solved){
+      d.classList.add('active');
+      d.style.background=allColors[i];
+    } else if(i<PUZZLE_PHOTOS.length+ropeRevealedCount){
+      d.classList.add('active');
+      d.style.background=allColors[i];
+    }
+  });
+}
+
+// ══════════════════════════════════
+//  NO BUTTONS
+// ══════════════════════════════════
+let noc={noBtnCard:0,noBtnBot:0};
+const noLabels=["No 😅","Nope! 🏃","Catch me! 💨","Too slow! 😜","Never! 🙈",
+  "Colour me NOT! 🎨","Holi hai run! 🏃","Help meee! 😂","Can't catch me 💨","Say YES! 💖"];
+
+function noRun(id){
+  const btn=document.getElementById(id);
+  const parent=btn.parentElement;
+  if(!parent) return;
+  noc[id]=Math.min((noc[id]||0)+1, noLabels.length-1);
+  btn.textContent=noLabels[noc[id]];
+  const mg=8;
+  const parentW=parent.clientWidth;
+  const parentH=parent.clientHeight;
+  const bw=btn.offsetWidth||130;
+  const bh=btn.offsetHeight||48;
+  const maxX=Math.max(mg, parentW-bw-mg);
+  const maxY=Math.max(mg, parentH-bh-mg);
+  const x=mg + Math.random()*(maxX-mg);
+  const y=mg + Math.random()*(maxY-mg);
+  btn.style.cssText+=`;position:absolute;left:${x}px;top:${y}px;z-index:50;transition:left .22s cubic-bezier(.34,1.56,.64,1),top .22s cubic-bezier(.34,1.56,.64,1)`;
+}
+
+// ══════════════════════════════════
+//  YES
+// ══════════════════════════════════
+function sayYes(){
+  document.getElementById('successScreen').classList.add('show');
+  burst(); setInterval(burst,3500);
+}
+function burst(){
+  const ic=['🎊','🎉','🎨','🌈','💕','🟠','🔴','🟣','🔵','🟢','🟡','✨','💫','🌸','🧩','🪢'];
+  for(let i=0;i<40;i++) setTimeout(()=>{
+    const c=document.createElement('div'); c.className='confetti';
+    c.textContent=ic[Math.floor(Math.random()*ic.length)];
+    c.style.left=Math.random()*100+'vw';
+    c.style.animationDuration=(2+Math.random()*3)+'s';
+    c.style.fontSize=(1+Math.random()*.8)+'rem';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),6000);
+  },i*70);
+}
+
+// ══════════════════════════════════
+//  TOAST
+// ══════════════════════════════════
+let toastT=null;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// ══════════════════════════════════
+//  MUSIC
+// ══════════════════════════════════
+function updateMusicBtn(){
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicBtn');
+  if(!audio || !btn) return;
+  btn.textContent = audio.paused ? '▶️ Play Song' : '⏸️ Pause Song';
+}
+
+async function startMusic(){
+  const audio = document.getElementById('bgMusic');
+  if(!audio) return;
+  if(!musicInitialized){
+    audio.src = MUSIC_SRC;
+    audio.load();
+    musicInitialized = true;
+  }
+  try{
+    await audio.play();
+    updateMusicBtn();
+  }catch(_err){
+    updateMusicBtn();
+  }
+}
+
+async function toggleMusic(){
+  const audio = document.getElementById('bgMusic');
+  if(!audio) return;
+  if(audio.paused) await startMusic();
+  else{
+    audio.pause();
+    updateMusicBtn();
+  }
+}
+
+// ══════════════════════════════════
+//  START
+// ══════════════════════════════════
+function startShow(){
+  startMusic();
+  const intro=document.getElementById('intro');
+  intro.classList.add('out');
+  setTimeout(()=>{
+    intro.style.display='none';
+    document.getElementById('main').style.display='block';
+    buildDots();
+    buildPuzzles();
+    updateMusicBtn();
+  },900);
+}
+
+// ══════════════════════════════════
+//  BG CANVAS
+// ══════════════════════════════════
+(function(){
+  const c=document.getElementById('bgCanvas');
+  const cx=c.getContext('2d');
+  const cols=['#FF6B2B','#FF2D78','#FFD700','#00C896','#4B9FFF','#C94BFF'];
+  let pts=[];
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  function spawn(){
+    pts.push({
+      x:Math.random()*c.width,y:-20,
+      r:3+Math.random()*6,col:cols[Math.floor(Math.random()*cols.length)],
+      spd:.3+Math.random()*.65,drift:(Math.random()-.5)*.45,
+      op:.18+Math.random()*.28,rot:Math.random()*Math.PI*2,
+      rotS:(Math.random()-.5)*.022,star:Math.random()>.5,
+    });
+  }
+  function star(x,y,r){
+    cx.beginPath();
+    for(let i=0;i<5;i++){const a=(i*4*Math.PI/5)-Math.PI/2;
+      i===0?cx.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):cx.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}
+    cx.closePath();
+  }
+  function loop(){
+    cx.clearRect(0,0,c.width,c.height);
+    pts.forEach((p,i)=>{
+      p.y+=p.spd;p.x+=p.drift;p.rot+=p.rotS;
+      cx.save();cx.globalAlpha=p.op;cx.fillStyle=p.col;
+      cx.translate(p.x,p.y);cx.rotate(p.rot);
+      if(p.star){star(0,0,p.r);cx.fill();}
+      else{cx.beginPath();cx.arc(0,0,p.r,0,Math.PI*2);cx.fill();}
+      cx.restore();
+      if(p.y>c.height+20)pts.splice(i,1);
+    });
+    requestAnimationFrame(loop);
+  }
+  resize();window.addEventListener('resize',resize);
+  setInterval(spawn,380);loop();
+})();
+</script>
+</body>
+</html>
